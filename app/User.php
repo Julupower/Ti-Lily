@@ -58,4 +58,13 @@ class User extends Authenticatable
         //that is greater or equal to the today date. If so return it
         return $this->hasMany('App\Post')->where('created_at', '>=', Carbon::today());
     }
+    
+    /**
+     * function creates a one to many relationship between the User and the Gallery Images
+     * @return type
+     */
+    public function gallery()
+    {
+        return $this->hasMany('App\Gallery');
+    }
 }

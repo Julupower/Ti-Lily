@@ -6,12 +6,14 @@ use App\Http\Requests\UserUpdate;
 use App\Http\Requests\CreatePost;
 use App\Http\Requests\CreateProduct;
 use App\Http\Requests\EditProduct;
+use App\Http\Requests\ValidateGalleryPostRequest;
 use Carbon\Carbon;
 use App\Charts\DashboardChart;
 use App\Comment;
 use App\Post;
 use App\User;
 use App\Product;
+use App\Gallery;
 
 class AdminController extends Controller
 {
@@ -313,13 +315,93 @@ class AdminController extends Controller
         
     }
     
+    /**
+     * Method to delete products from the database
+     * @param type $id
+     * @return type
+     */
     public function deleteProduct($id)
     {
         //get the first product that matches the id
         $product = Product::where('id', $id)->first();
         //delete the product from the database
+        if(file_exists($product->thumbnail))
+        {
+            //remove file from directory
+            unlink ($product->thumbnail);   
+        }
+        
         $product->delete();
         //resubmit the page
-        return back();
+        return back()->with('success', "The product was successfully removed");
     }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function editGalleryView()
+    {
+        $gallery_images = Gallery::orderBy('sort_order')->get();
+        $last_image = Gallery::orderBy('sort_order', 'DESC ')->first();
+        return view('admin.editGallery', compact('gallery_images', 'last_image'));
+    }
+    
+    
+    /**
+     * Method that will use the request object to get data from a form and use it
+     * to create a new Gallery image
+     * @param CreateProduct $request
+     * @return type
+     */
+    public function addGalleryImage(ValidateGalleryPostRequest $request)
+    {
+        //create a new product object
+        $img = new Gallery();
+        //use set the attributes of the product object using the data  from the 
+        //form via the validated request object
+        $img->title = $request['title'];
+        $img->description = $request['desc'];
+        $img->sort_order = $request['position'];
+        
+        //move the uploaded image to the required directory
+        $image_filepath = $request->file('image');
+        $fileName = $image_filepath->getClientOriginalName();//get the file path of the image 
+//        $fileExtension = $thumbnail->getClientOriginalExtension();//get the file type of the image
+        $image_filepath->move('gallery_images', $fileName);//move the file to the required directory
+        
+        //put the file path and file name of the image on the database thumbnail field
+        $img->image_filepath = 'gallery_images/' .$fileName;
+        
+        //save the new image to the Gallery database
+        $img->save();
+        //resubmit the page with a success message
+        return back()->with('success', "A new Image has been successfully added to the Gallery");
+    }
+    
+    /**
+     * Method that will delete image file from Gallery
+     * @param type $id
+     * @return type
+     */
+    public function deleteImg($id)
+    {
+        //get the first product that matches the id
+        $img = Gallery::where('id', $id)->first();
+        
+        if(file_exists($img->image_filepath))
+        {
+            //remove file from directory
+            unlink ($img->image_filepath);
+            //delete the image from the database
+            $img->delete();
+            //resubmit the page
+            return back()->with('success', "Image was seccessfully removed from the Gallerry");
+        }
+        else{
+            return back()->withErrors('ERROR: Gallery Image could not be found in the database');
+        }
+    }
+    
+    
 }

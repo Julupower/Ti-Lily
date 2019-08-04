@@ -66,6 +66,11 @@
                             <i class="icon icon-user"></i> Users
                         </a>
                     </li>
+                    <li class="nav-item nav-dropdown">
+                        <a href="{{ route('adminEditGallery') }}" class="nav-link {{Route::currentRouteName() == 'adminEditGallery' ? 'active' : ''}}">
+                            <i class="icon icon-picture"></i> Gallery
+                        </a>
+                    </li>
                     @endif
                 </ul>
             </nav>

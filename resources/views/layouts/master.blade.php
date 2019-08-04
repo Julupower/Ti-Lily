@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tia&Lily Events Management</title>
+    <title>Ti&Lily Events Management</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">

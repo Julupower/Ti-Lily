@@ -72,6 +72,10 @@ Route::prefix('admin')->group(function(){
     Route::post('products/new_product', "AdminController@newProductPost")->name('adminNewProductPost');
     Route::post('product/{id}', "AdminController@editProductPost")->name('adminEditProductPost');
     Route::post('product/{id}/delete', "AdminController@deleteProduct")->name('adminDeleteProduct');
+    
+    Route::get('gallery', "AdminController@editGalleryView")->name('adminEditGallery');
+    Route::post('gallery/add_image', "AdminController@addGalleryImage")->name('adminAddGalleryImg');
+    Route::post('gallery/{id}/delete', "AdminController@deleteImg")->name('adminDeleteImg');
 });
 
 

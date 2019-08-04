@@ -1,20 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    <!-- Page Header -->
-<!--    <header class="masthead" style="background-image: url('{{asset('assets/img/home-bg.jpg')}}')">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 mx-auto">
-            <div class="site-heading">
-              <h1>Tia & Lily Wedding Planning</h1>
-             <span class="subheading">Wedding Planning Services for Enfield and North London</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>-->
-
 <br><br>
 <!-- Page Content -->
     <div class="container" >
@@ -43,9 +28,6 @@
                 <div class="carousel-item ">
                 <img class="d-block img-fluid" src="{{ asset('/assets/img/wedding-4_slide.jpg') }}" alt="Fifth slide">
               </div>
-<!--                <div class="carousel-item">
-                <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
-              </div>-->
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -58,7 +40,7 @@
           </div>
             
             <div id="main-header" align="center">
-                <h1 class="my-4 text-center text-lg-left main-text">Welcome to Ti & Lily Wedding Planning</h1>
+                <h1 class="my-4 text-center text-lg-left main-text">Welcome to Ti & Lily Events Management</h1>
             </div>
         
 
