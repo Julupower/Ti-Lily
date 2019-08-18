@@ -18,6 +18,7 @@ Route::get('contact', "PublicController@contact")->name('contact');
 Route::post('contact_us', "PublicController@contactUs")->name('contactUs');
 Route::get('message_sent', "PublicController@messageSent")->name('messageSent');
 Route::get('error', "PublicController@errorPage")->name('errorPage');
+Route::get('gallery', "PublicController@gallery")->name('gallery');
 Route::get('terms_and_conditions', "PublicController@termsAndConditions")->name('termsAndConditions');
 
 Auth::routes();
@@ -76,6 +77,7 @@ Route::prefix('admin')->group(function(){
     Route::get('gallery', "AdminController@editGalleryView")->name('adminEditGallery');
     Route::post('gallery/add_image', "AdminController@addGalleryImage")->name('adminAddGalleryImg');
     Route::post('gallery/{id}/delete', "AdminController@deleteImg")->name('adminDeleteImg');
+    Route::post('gallery/change_gallery_order/{id}', "AdminController@changeGallerySortOrder")->name('adminGallerySortOrder');
 });
 
 

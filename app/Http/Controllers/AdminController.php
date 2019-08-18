@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use App\Http\Requests\UserUpdate;
 use App\Http\Requests\CreatePost;
 use App\Http\Requests\CreateProduct;
@@ -401,6 +401,42 @@ class AdminController extends Controller
         else{
             return back()->withErrors('ERROR: Gallery Image could not be found in the database');
         }
+    }
+    
+    /**
+     * Method that swaps the sort_order of the gallery picture objects
+     * @param Request $request
+     * @param type $id
+     * @return type
+     */
+    public function changeGallerySortOrder(Request $request, $id )
+    {
+        //get the value of the sort_order key from the post option form
+        $key2 = $request["sort-order-{$id}"];
+        
+        //get the sort_order of the gallery picture to be swapped 
+        $galleryObj1 = Gallery::findOrFail($id);
+        
+        $key1 = $galleryObj1->sort_order;
+        
+        //get the Gallary objects
+        $galleryObjs = Gallery::all();
+        
+        //sort the gallary order
+        foreach($galleryObjs as $obj)
+        {
+            //go through the gallery objects find the sort_order that matches the one we're trying to swap
+            if($obj->sort_order == $key2)
+            {
+                $obj->sort_order = $key1;
+                $galleryObj1->sort_order = $key2;
+                //save changes to the database
+                $obj->save();
+                $galleryObj1->save();
+                break;//end the loop
+            }
+        }
+        return back()->with('success', "The position of the image on has been successfully changed on the gallery");
     }
     
     

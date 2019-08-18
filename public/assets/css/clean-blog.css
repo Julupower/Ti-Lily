@@ -428,7 +428,7 @@ footer .copyright {
 
 
 .rounded-corners{
-    border-radius: 0.35EM !important;
+    border-radius: 0.35em !important;
 }
 
 .rounded-corners img{
@@ -453,4 +453,11 @@ footer .copyright {
 
 #navigation-container{
     background-color: transparent;
+}
+
+.gallery-img{
+    position: relative; 
+    width:100%; 
+    padding: 0.5em; 
+    height: 25em !important; 
 }

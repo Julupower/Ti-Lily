@@ -76,33 +76,32 @@
                 <div class="row col-md-12">
                     @foreach($gallery_images as $img)
                     <div class="col-sm-4">
-                        <form method="POST" action="#" enctype="multipart/form-data">
                         <table>   
-                            @csrf
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label class="form-control-label">Change image position</label>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td>
-                                            <select class="btn btn-secondary dropdown-toggle rounded-corners"  name="sort-order" onchange="if (this.selectedIndex) alert('Testing 1,2,3...');">
-                                                <option value="{{ $img->sort_order }}">{{ $img->sort_order }}</option>
-                                                @foreach($gallery_images as $img_order)
-                                                    @if($img_order->sort_order != $img->sort_order)
-                                                    <option value="{{ $img_order->sort_order }}" class="">{{ $img_order->sort_order }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger rounded-corners" data-toggle="modal" data-target="#delete-img-model-{{ $img->id }}">Delete&nbsp;&nbsp;<i class="icon icon-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label class="form-control-label">Change image position</label>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <select class="btn btn-secondary dropdown-toggle rounded-corners" id="sort-order-{{ $img->id }}">
+                                            <option selected="selected" value="">{{ $img->sort_order }}</option>
+                                            @foreach($gallery_images as $img_order)
+                                                @if($img_order->sort_order != $img->sort_order)
+                                                <option value="{{ $img_order->sort_order }}" class=""  data-toggle="modal" data-target="#change-img-order-model-{{ $img->id }}">
+                                                    {{ $img_order->sort_order }}
+                                                </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger rounded-corners" data-toggle="modal" data-target="#delete-img-model-{{ $img->id }}">Delete&nbsp;&nbsp;<i class="icon icon-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-                        </form>
                         <br>
                         <img src="{{ asset($img->image_filepath) }}" alt="{!! $img->description !!}" data-toggle="tooltip" title="{{ $img->title }}" class="gallery-img rounded-corners">
                     </div>
@@ -127,9 +126,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        <form method="POST" action="{{ route('adminDeleteImg', $img->id) }}" id="admin-delete-img-{{ $img->id }}">
+        <form method="POST" action="{{ route('adminDeleteImg', $img->id) }}">
         @csrf
-            <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-delete-img-{{ $img->id }}').submit();">Yes</button>
+            <button type="submit" class="btn btn-primary">Yes</button>
         </form>
       </div>
     </div>
@@ -137,4 +136,40 @@
 </div>
 <!------------------------ END   MODAL --------------------------------->
 @endforeach
+
+@foreach($gallery_images as $img_order)
+<!------------------------ START MODAL --------------------------------->
+<div class="modal fade" id="change-img-order-model-{{ $img_order->id }}" tabindex="-1" role="dialog" aria-labelledby="Change Image Position">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">You are about to change the position of this image in the Gallery"</h4>
+      </div>
+      <div class="modal-body text-danger">
+          <strong>Do you want this?</strong>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <form method="POST" action="{{ route('adminGallerySortOrder', $img_order->id) }}">
+        @csrf
+        <input type="hidden" id="hidden-field-{{ $img_order->id }}" name="sort-order-{{ $img_order->id }}" value="" />
+        <button type="submit" class="btn btn-primary" onclick="setHiddenInput('{{ $img_order->id }}')">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    /**
+     * function that sets the hidden input value to be the new sort_order value
+     */
+    function setHiddenInput(id){
+        var sortOrder = $('#sort-order-'+id).val();
+        //alert('SORT ORDER: '+sortOrder+ '  ID Order: '+id);
+        $('input#hidden-field-'+id).val(sortOrder);
+    }
+</script>
+<!------------------------ END   MODAL --------------------------------->
+@endforeach
+
 @endsection

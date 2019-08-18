@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Mail;
+use App\Gallery;
 use App\Mail\ContactUs;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,12 @@ class PublicController extends Controller
     public function termsAndConditions()
     {
         return view('termsAndConditions');
+    }
+    
+    public function gallery()
+    {
+        $gallery = Gallery::orderBy('sort_order')->get();
+        return view('gallery', compact('gallery'));
     }
 
 
