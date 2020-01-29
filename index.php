@@ -21,7 +21,7 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../../tiandlily_server/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/../../tiandlily_server/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +58,11 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+?>
+<!--<html>
+    <body>
+        <div align="center">
+            <h1>This Website Is Currently Under Construction</h1>
+        </div>
+    </body>
+</html>-->
